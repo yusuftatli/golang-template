@@ -1,0 +1,299 @@
+swagger: "2.0"
+info:
+  description: template
+  version: 1.0.0
+  title: template
+  contact:
+    email: yctatli@gmail.com
+schemes:
+  - "https"
+  - "http"
+tags:
+  - name: template
+    description: template
+paths:
+  /template/{id}:
+    get:
+      operationId: getTemplate
+      description: Get template with table request
+      tags:
+        - template
+      summary: Get template with table request
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: template Id
+          type: integer
+          format: int64
+          required: true
+      responses:
+        200:
+          description: Domain list successfully return
+          schema:
+            $ref: "#/definitions/TemplateReponse"
+        400:
+          description: Bad request
+          schema:
+            $ref: "#/definitions/ApiError"
+        404:
+          description: Template data not found
+    delete:
+      tags:
+        - template
+      summary: Delete template
+      operationId: deleteTemplate
+      description: Delete template
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: template Id
+          type: integer
+          format: int64
+          required: true
+      responses:
+        200:
+          description: Template data deleted
+          schema:
+            $ref: "#/definitions/DeletedResponse"
+        400:
+          description: Bad request
+        404:
+          description: Template data not found
+    patch:
+      tags:
+        - template
+      summary: Update template
+      operationId: updateTemplate
+      description: Update template
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: template Id
+          type: integer
+          format: int64
+          required: true
+        - in: body
+          name: PostTableRequest
+          schema:
+            $ref: "#/definitions/PacthTemplate"
+      responses:
+        200:
+          description: template updated
+          schema:
+            $ref: "#/definitions/TemplateReponse"
+        400:
+          description: Bad request
+        404:
+          description: Template data not found
+  /template/table:
+    post:
+      tags:
+        - template
+      summary: Get template table data with table request
+      operationId: getTemplateTable
+      description: Get template table with table request
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: getTemplateTable
+          schema:
+            $ref: "#/definitions/PostTableRequest"
+      responses:
+        200:
+          description: Account List
+          schema:
+            $ref: "#/definitions/PaginatedTemplateResponse"
+        400:
+          description: Bad request
+          schema:
+            $ref: "#/definitions/ApiError"
+        404:
+          description: Template data not found
+  /template:
+    post:
+      tags:
+        - template
+      summary: Create template data
+      operationId: createTemplate
+      description: Create template data
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: createTemplateRequest
+          schema:
+            $ref: "#/definitions/PostTemplate"
+      responses:
+        200:
+          description: Template created
+          schema:
+            $ref: "#/definitions/TemplateReponse"
+        400:
+          description: Bad request
+          schema:
+            $ref: "#/definitions/ApiError"
+definitions:
+  PostTemplate:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: uint64
+      name:
+        type: string
+      type:
+        type: string
+      size:
+        type: string
+      createdAt:
+        type: string
+      updatedAt:
+        type: string
+  PacthTemplate:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: uint64
+      name:
+        type: string
+      type:
+        type: string
+      size:
+        type: string
+      createdAt:
+        type: string
+      updatedAt:
+        type: string
+  TemplateReponse:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: uint64
+      name:
+        type: string
+      type:
+        type: string
+      size:
+        type: string
+      goksu:
+        type: string
+      createdAt:
+        type: string
+      updatedAt:
+        type: string
+  PaginatedTemplateResponse:
+    type: object
+    properties:
+      records:
+        type: array
+        items:
+          $ref: "#/definitions/TemplateReponse"
+      totalRecords:
+        type: integer
+        format: uint64
+  PostTableRequest:
+    type: object
+    description: Parameters for table request
+    properties:
+      page:
+        type: integer
+        format: int64
+        default: 1
+      pageSize:
+        type: integer
+        format: int64
+        default: 10
+      sort:
+        type: object
+        additionalProperties:
+          type: string
+          enum: [asc, desc]
+        x-nullable: true
+      search:
+        type: string
+        x-nullable: true
+      export:
+        type: string
+        enum: [PDF, CSV, EXCEL]
+        x-nullable: true
+      filters:
+        type: array
+        items:
+          $ref: "#/definitions/Filter"
+        x-nullable: true
+      startDate:
+        type: string
+        format: date-time
+        x-nullable: true
+      endDate:
+        type: string
+        format: date-time
+        x-nullable: true
+  Filter:
+    type: object
+    description: Single filter object for tables
+    properties:
+      key:
+        type: string
+      op:
+        type: string
+        enum: [eq, ne, ct, in, notin, sw, ew, like, gt, ge, lt, le]
+      value: {}
+    required:
+      - key
+      - op
+      - value
+  ApiError:
+    type: object
+    properties:
+      httpStatus:
+        type: integer
+        format: int
+      errorCode:
+        type: string
+      errorMessage:
+        type: string
+  DeletedResponse:
+    type: object
+    description: The resource deleted succesfully.
+  # ErrorCode:
+  #   type: integer
+  #   format: int
+  #   enum:
+  #     - "30000"
+  #     - "30001"
+  #     - "30002"
+  #     - "30003"
+  #     - "30004"
+  #     - "30005"
+  #     - "30006"
+  #     - "30007"
+  #     - "30008"
+  #     - "30009"
+  #     - "30010"
+  #     - "30011"
+  #     - "30012"
+  #   description: >
+  #     * 30000: Error unmarshalling request. Check your request.
+  #     * 30001: Required parameters are missing.
+  #     * 30003: Minimum value is exceeded.
+  #     * 30009: Maximum value is exceeded.

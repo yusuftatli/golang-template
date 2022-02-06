@@ -1,1 +1,1 @@
-# golang-template
+# go-template-with-redis-gorm-api
