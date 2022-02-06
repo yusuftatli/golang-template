@@ -116,11 +116,6 @@ Email yctatli@gmail.com for support or join our Slack channel.
 If you have any feedback, please contact us at yctatli@gmail.com
 
   
-## Lisans
-
-[MIT](https://choosealicense.com/licenses/mit/)
-
-  
 ## Swagger Documantation
 
 Following code runs to generate api models
@@ -128,5 +123,16 @@ Following code runs to generate api models
 ```bash
   make models
 ```
+
+  
+## References
+
+[Generate readme](https://readme.so/)
+
+
+  
+## Lisans
+
+[MIT](https://choosealicense.com/licenses/mit/)
 
   
