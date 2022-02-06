@@ -19,18 +19,20 @@ func ParseEnv(key string, required bool, dft string) string {
 }
 
 type Environment struct {
-	Port          string
-	Debug         bool
-	Redis         string
-	RedisPassword string
-	Postgres      string
+	ApplicationHost string
+	Port            string
+	Debug           bool
+	Redis           string
+	RedisPassword   string
+	Postgres        string
 }
 
 func GetEnvironment() *Environment {
 	return &Environment{
-		Port:     ParseEnv("PORT", false, "8000"),
-		Debug:    ParseEnv("DEBUG", false, "false") == "true",
-		Postgres: ParseEnv("DATABASE_URL", true, "false"),
-		Redis:    ParseEnv("REDIS", false, "false"),
+		ApplicationHost: ParseEnv("APPLICATION_HOST", false, "0.0.0.0"),
+		Port:            ParseEnv("PORT", false, "8000"),
+		Debug:           ParseEnv("DEBUG", false, "false") == "true",
+		Postgres:        ParseEnv("DATABASE_URL", true, "false"),
+		Redis:           ParseEnv("REDIS", false, "false"),
 	}
 }

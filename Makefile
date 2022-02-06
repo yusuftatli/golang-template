@@ -2,7 +2,7 @@ API = api.yaml
 BINARY_NAME=main
 
 
-.PHONY: install_tools
+.PHONY: install_swagger
 install_tools: tools/swagger 
 
 tools/swagger:
@@ -23,3 +23,6 @@ build:
 
 install:
 		go install
+
+docker_build:
+			docker-compose up --build  

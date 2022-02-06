@@ -46,6 +46,11 @@ build project
   make build
 ```
 
+install swagger documantation
+```bash
+  make install_swagger
+```
+
   
 ## API Using
 
@@ -71,6 +76,15 @@ build project
 | `token` | `string` | **Required**. token. |
 
   
+## Docker componse
+
+docker build
+
+```bash
+  make docker_build
+```
+
+  
 ## Frameworks&Database
 
 - Gorm, Gin
@@ -90,13 +104,29 @@ To run this project you will need to add the following environment variables to 
 
 `REDIS`
 
+`APPLICATION_HOST`
+
   
 ## Help
 
 Email yctatli@gmail.com for support or join our Slack channel.
   
+## Feedback
+
+If you have any feedback, please contact us at yctatli@gmail.com
+
+  
 ## Lisans
 
 [MIT](https://choosealicense.com/licenses/mit/)
+
+  
+## Swagger Documantation
+
+Following code runs to generate api models
+
+```bash
+  make models
+```
 
   
