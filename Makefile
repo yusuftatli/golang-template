@@ -1,5 +1,5 @@
 API = api.yaml
-
+BINARY_NAME=main
 
 
 .PHONY: install_tools
@@ -14,3 +14,12 @@ models: tools/swagger
 	$(call print-target)
 	find ./models -type f -not -name '*_test.go' -delete
 	./tools/swagger generate model --spec=docs/$(API)
+
+run:
+	go run  .
+
+build:
+	go run  .
+
+install:
+		go install
