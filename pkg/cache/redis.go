@@ -1,4 +1,4 @@
-package database
+package cache
 
 //  var (
 //  	rdb *redis.Client

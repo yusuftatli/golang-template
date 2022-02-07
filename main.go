@@ -4,14 +4,16 @@ import (
 	"fmt"
 
 	"github.com/gin-gonic/gin"
-	common "github.com/yusuftatli/go-template-with-redis-gorm-api/common"
-	"github.com/yusuftatli/go-template-with-redis-gorm-api/handler"
-	initial "github.com/yusuftatli/go-template-with-redis-gorm-api/initial"
+	"github.com/yusuftatli/go-template-with-redis-gorm-api/internal/handler"
+	"github.com/yusuftatli/go-template-with-redis-gorm-api/internal/initial"
+	"github.com/yusuftatli/go-template-with-redis-gorm-api/pkg/config"
+	"github.com/yusuftatli/go-template-with-redis-gorm-api/pkg/database"
+	"github.com/yusuftatli/go-template-with-redis-gorm-api/pkg/logging"
+	"github.com/yusuftatli/go-template-with-redis-gorm-api/pkg/middleware"
 )
 
 var (
-	TemplateHandler *handler.TemplateHandler
-	loginHandler    *handler.LoginHandler
+	TemplateHandler *handler.HandlerExample
 )
 
 var (
@@ -19,13 +21,22 @@ var (
 )
 
 func main() {
-	env := common.GetEnvironment()
+	env := config.GetEnvironment()
+
 	// gin.SetMode(gin.DebugMode)
+
 	// Logger
-	logger := common.InitLogger(env.Debug)
-	defer func() {
-		_ = logger.Sync()
-	}()
+	logger := logging.InitLogger(env.Debug)
+	defer logger.Sync()
+
+	// Database
+	db := database.ConnectDB(env.Postgres)
+	defer database.CloseDBConnection(db)
+	database.AutoMigrate(db)
+
+	//Middlewares
+	router.Use(middleware.HttpLoggingMiddleware())
+	router.Use(gin.Recovery())
 
 	initial.InitRoutes(router)
 

@@ -5,23 +5,24 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-openapi/strfmt"
-	"github.com/yusuftatli/go-template-with-redis-gorm-api/entities"
-	"github.com/yusuftatli/go-template-with-redis-gorm-api/models"
-	repositories "github.com/yusuftatli/go-template-with-redis-gorm-api/repository"
-	utils "github.com/yusuftatli/go-template-with-redis-gorm-api/utils"
+	"github.com/yusuftatli/go-template-with-redis-gorm-api/internal/entities"
+	"github.com/yusuftatli/go-template-with-redis-gorm-api/internal/models"
+	"github.com/yusuftatli/go-template-with-redis-gorm-api/internal/repositories"
+	"github.com/yusuftatli/go-template-with-redis-gorm-api/pkg/database"
+	"github.com/yusuftatli/go-template-with-redis-gorm-api/pkg/utils"
 )
 
-type TemplateHandler struct {
-	TemplateRepository repositories.TemplateRepositoryInterface
+type HandlerExample struct {
+	RepositoryExample repositories.IRepositoryExample
 }
 
-func NewATemplateHandler(templateRepository repositories.TemplateRepositoryInterface) *TemplateHandler {
-	return &TemplateHandler{
-		TemplateRepository: templateRepository,
+func NewHandlerExample() *HandlerExample {
+	return &HandlerExample{
+		RepositoryExample: repositories.NewRepositoryExample(database.GetPostgresDB()),
 	}
 }
 
-func (handler *TemplateHandler) Insert(c *gin.Context) {
+func (handler *HandlerExample) Insert(c *gin.Context) {
 	dto := &models.PostTemplate{}
 	err := c.Bind(dto)
 	if err != nil {
@@ -35,8 +36,8 @@ func (handler *TemplateHandler) Insert(c *gin.Context) {
 		return
 	}
 
-	row := &entities.Template{Name: dto.Name, Size: dto.Size, Type: dto.Type}
-	row, err = handler.TemplateRepository.Insert(row)
+	row := &entities.Example{Name: dto.Name, Size: dto.Size, Type: dto.Type}
+	row, err = handler.RepositoryExample.Insert(row)
 
 	if err != nil {
 		// utils.ApiError(c, &models.APIError{ErrorCode: http.StatusInternalServerError, ErrorMessage: "Error unmarshalling request. Check your request."})
@@ -46,7 +47,7 @@ func (handler *TemplateHandler) Insert(c *gin.Context) {
 	utils.ResponseWrite(c, row)
 }
 
-func (handler *TemplateHandler) Update(c *gin.Context) {
+func (handler *HandlerExample) Update(c *gin.Context) {
 	dto := &models.PacthTemplate{}
 	err := c.Bind(dto)
 	if err != nil {
@@ -60,8 +61,8 @@ func (handler *TemplateHandler) Update(c *gin.Context) {
 		return
 	}
 
-	row := &entities.Template{ID: dto.ID}
-	row, err = handler.TemplateRepository.Insert(row)
+	row := &entities.Example{ID: dto.ID}
+	row, err = handler.RepositoryExample.Insert(row)
 
 	if err != nil {
 		// utils.ApiError(c, &models.APIError{ErrorCode: http.StatusInternalServerError, ErrorMessage: "Error unmarshalling request. Check your request."})
@@ -71,15 +72,15 @@ func (handler *TemplateHandler) Update(c *gin.Context) {
 	utils.ResponseWrite(c, row)
 }
 
-func (handler *TemplateHandler) Detele(c *gin.Context) {
+func (handler *HandlerExample) Delete(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Params.ByName("id"), 10, 64)
 	if err != nil {
 		// utils.ApiError(c, &models.APIError{ErrorCode: http.StatusInternalServerError, ErrorMessage: "Tempalte id is required"})
 		return
 	}
 
-	row := &entities.Template{ID: uint64(id)}
-	err = handler.TemplateRepository.Delete(row)
+	row := &entities.Example{ID: uint64(id)}
+	err = handler.RepositoryExample.Delete(row)
 
 	if err != nil {
 		// utils.ApiError(c, &models.APIError{ErrorCode: http.StatusInternalServerError, ErrorMessage: "Error unmarshalling request. Check your request."})
@@ -91,15 +92,15 @@ func (handler *TemplateHandler) Detele(c *gin.Context) {
 	// utils.ApiDeleted(c, common.err_message_template)
 }
 
-func (handler *TemplateHandler) FindAll(c *gin.Context) {
+func (handler *HandlerExample) FindAll(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Params.ByName("id"), 10, 64)
 	if err != nil {
 		// utils.ApiError(c, &models.APIError{ErrorCode: http.StatusInternalServerError, ErrorMessage: "Tempalte id is required"})
 		return
 	}
 
-	row := &entities.Template{ID: uint64(id)}
-	err = handler.TemplateRepository.Delete(row)
+	row := &entities.Example{ID: uint64(id)}
+	err = handler.RepositoryExample.Delete(row)
 
 	if err != nil {
 		// utils.ApiError(c, &models.APIError{ErrorCode: http.StatusInternalServerError, ErrorMessage: "Error unmarshalling request. Check your request."})

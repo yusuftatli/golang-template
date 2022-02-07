@@ -2,7 +2,7 @@ package entities
 
 import "time"
 
-type Template struct {
+type Example struct {
 	ID        uint64    `gorm:"primaryKey"`
 	Name      string    `gorm:"column:name"`
 	Type      string    `gorm:"column:type"`

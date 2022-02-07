@@ -13,3 +13,12 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+
+# Below 3 lines ignore files which have not extension
+*
+
+!*.*
+
+!*/
+
+.DS_STORE

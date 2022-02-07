@@ -5,11 +5,8 @@ import (
 
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
-	common "github.com/yusuftatli/go-template-with-redis-gorm-api/common"
-	"github.com/yusuftatli/go-template-with-redis-gorm-api/common/database"
-	"github.com/yusuftatli/go-template-with-redis-gorm-api/handler"
-	midddleware "github.com/yusuftatli/go-template-with-redis-gorm-api/midddleware"
-	repositories "github.com/yusuftatli/go-template-with-redis-gorm-api/repository"
+	"github.com/yusuftatli/go-template-with-redis-gorm-api/internal/handler"
+	"github.com/yusuftatli/go-template-with-redis-gorm-api/pkg/middleware"
 )
 
 // User demo
@@ -19,24 +16,12 @@ type User struct {
 	LastName  string
 }
 
-var identityKey = "id"
-
 func InitRoutes(r *gin.Engine) {
-	env := common.GetEnvironment()
-	// Database
-	db := database.ConnectDB(env.Postgres)
-	defer database.CloseDBConnection(db)
-	database.AutoMigrate(db)
-	// Repositories
-	templateRepository := repositories.NewTemplateRepository(db)
-
 	// Handlers
-	TemplateHandler := handler.NewATemplateHandler(templateRepository)
+	TemplateHandler := handler.NewHandlerExample()
 
-	r.Use(gin.Logger())
-	r.Use(gin.Recovery())
+	authMiddleware, _ := middleware.Auth()
 
-	authMiddleware, _ := midddleware.Auth()
 	r.POST("/login", authMiddleware.LoginHandler)
 	r.NoRoute(authMiddleware.MiddlewareFunc(), func(c *gin.Context) {
 		claims := jwt.ExtractClaims(c)
@@ -51,7 +36,7 @@ func InitRoutes(r *gin.Engine) {
 	{
 		auth.POST("/create", TemplateHandler.Insert)
 		auth.POST("/update:id", TemplateHandler.Update)
-		auth.POST("/delete:id", TemplateHandler.Detele)
+		auth.POST("/delete:id", TemplateHandler.Delete)
 		auth.GET("/list", TemplateHandler.FindAll)
 	}
 

@@ -3,10 +3,10 @@ package handler
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-openapi/strfmt"
-	"github.com/yusuftatli/go-template-with-redis-gorm-api/entities"
-	"github.com/yusuftatli/go-template-with-redis-gorm-api/models"
-	repositories "github.com/yusuftatli/go-template-with-redis-gorm-api/repository"
-	utils "github.com/yusuftatli/go-template-with-redis-gorm-api/utils"
+	"github.com/yusuftatli/go-template-with-redis-gorm-api/internal/entities"
+	"github.com/yusuftatli/go-template-with-redis-gorm-api/internal/models"
+	"github.com/yusuftatli/go-template-with-redis-gorm-api/internal/repositories"
+	"github.com/yusuftatli/go-template-with-redis-gorm-api/pkg/utils"
 )
 
 type LoginHandler struct {

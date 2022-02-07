@@ -4,11 +4,11 @@ import (
 	"encoding/json"
 
 	"github.com/gin-gonic/gin"
-	"github.com/yusuftatli/go-template-with-redis-gorm-api/models"
+	"github.com/yusuftatli/go-template-with-redis-gorm-api/internal/models"
 	"go.uber.org/zap"
 )
 
-func ApiError(c *gin.Context,err *models.APIError) {
+func ApiError(c *gin.Context, err *models.APIError) {
 	zap.S().Error(err.ErrorMessage)
 	resp, _ := err.MarshalBinary()
 	c.Header("Content-Type", "application/json")

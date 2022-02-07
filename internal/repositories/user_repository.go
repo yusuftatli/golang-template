@@ -1,7 +1,7 @@
 package repositories
 
 import (
-	"github.com/yusuftatli/go-template-with-redis-gorm-api/entities"
+	"github.com/yusuftatli/go-template-with-redis-gorm-api/internal/entities"
 	"gorm.io/gorm"
 )
 
